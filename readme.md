@@ -115,13 +115,13 @@ python magicli-tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 
 ## Project Structure TODO
 
-magicli-tarot.py
-api.py
-logic.py
-tarot.py
-test_magicli-tarot.py
-requirements.txt
-readme.md
+- magicli-tarot.py
+- api.py
+- logic.py
+- tarot.py
+- test_magicli-tarot.py
+- requirements.txt
+- readme.md
 
 **Briefly explain each file**
 
