@@ -27,7 +27,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 .idea/
-.vscode/
 
 # PyInstaller
 #   Usually these files are written by a python script from a template
@@ -205,6 +204,7 @@ cython_debug/
 # .vscode/
 # Temporary file for partial code execution
 tempCodeRunnerFile.py
+.vscode/
 
 # Ruff stuff:
 .ruff_cache/
@@ -219,3 +219,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Pytest
+.pytest_cache/

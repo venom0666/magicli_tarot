@@ -99,7 +99,7 @@ def parse_args():
     parser.add_argument(
         "--save",
         action="store_true",
-        help="Automaticaly save to .md file"
+        help="Automatically save to .md file"
     )
 
     parser.add_argument(
