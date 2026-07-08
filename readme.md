@@ -73,7 +73,7 @@ python magicli-tarot.py -t Celtic
 
 ```
 
-####Example help:
+#### Example help:
 
 ```
 $ python magicli-tarot.py --help
