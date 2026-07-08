@@ -1,6 +1,6 @@
 # **MAGICLI-TAROT**
 
-#### Video Demo: <https://www.youtube.com/watch?v=2CIvn1JwAy8>
+#### Video Demo: <TODO>
 
 #### Description
 
