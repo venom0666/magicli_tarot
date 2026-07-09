@@ -1,14 +1,19 @@
 import sys
 
-models = [
-    "gemini-2.5-flash",
-    "gemini-2.5-flash-lite",
-    "gemini-3.5-flash",
-    "gemini-3.1-flash-lite",
-]
-
-
 def interpret_tarot(client, cards, reading_type, model, language="English"):
+    """
+    Generate a tarot interpretation using the Gemini API.
+
+    Args:
+        client (genai.Client): Gemini API client.
+        reading_type (dict): Selected tarot spread.
+        cards (list[dict]): Drawn tarot cards.
+        language (str): Desired output language.
+        model (str): Gemini model to use.
+
+    Returns:
+        str: Generated tarot interpretation.
+    """
     try:
         interaction = client.interactions.create(
             model=model,

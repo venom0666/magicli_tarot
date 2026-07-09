@@ -4,12 +4,17 @@ import datetime
 from tarot import readings, tarot_deck
 from constants import models
 
+REVERSED_PROB = 0.20
+MAIN_PROB = 0.65
+
 
 def get_readings():
+    """Return a sorted list of available tarot spread names."""
     return list(sorted(readings.keys()))
 
 
 def print_menu(reading_types):
+    """Display the menu of available tarot spreads."""
     print("\nSelect the Tarot Reading Type:")
     for i, reading in enumerate(reading_types, start=1):
         print(f"{i:2} - {readings[reading]['Name']}")
@@ -18,6 +23,12 @@ def print_menu(reading_types):
 
 
 def get_type():
+    """
+    Prompt the user to select a tarot spread.
+
+    Returns:
+        int: The index of the selected spread, or the custom spread option.
+    """
     print_menu(get_readings())
     while True:
         choice = input("Choice: ").upper()
@@ -36,6 +47,19 @@ def get_type():
 
 
 def validate_text(message):
+    """
+    Prompt the user for non-empty text input.
+
+    Continues prompting until a non-empty value is entered. The returned
+    text is stripped of leading and trailing whitespace and converted to
+    title case.
+
+    Args:
+        message (str): Prompt displayed to the user.
+
+    Returns:
+        str: The validated text entered by the user.
+    """
     while True:
         text = input(message).strip().title()
         if text == "":
@@ -45,6 +69,18 @@ def validate_text(message):
             return text
 
 def validate_number(message):
+    """
+    Prompt the user for a positive integer.
+
+    Continues prompting until the user enters an integer greater than
+    zero.
+
+    Args:
+        message (str): Prompt displayed to the user.
+
+    Returns:
+        int: The validated positive integer.
+    """
     while True:
             try:
                 number = int(input(message))
@@ -58,6 +94,12 @@ def validate_number(message):
                 return number
 
 def create_custom():
+    """
+    Create a custom tarot spread from user input.
+
+    Returns:
+        dict: A dictionary containing the spread name and card positions.
+    """
     definitions = []
     name = validate_text("New Spread Name: ")
     num_cards = validate_number("Number of Cards: ")
@@ -68,6 +110,12 @@ def create_custom():
 
 
 def parse_args():
+    """
+    Parse command-line arguments.
+
+    Returns:
+        argparse.Namespace: Parsed command-line arguments.
+    """
     parser = argparse.ArgumentParser(
         description="Magicli-tarot brings the Power of Python and AI, to create insightful tarot readings delivering them to the comfort of your own CLI."
     )
@@ -126,6 +174,19 @@ def parse_args():
 
 
 def get_options(args):
+    """
+    Determine the reading type and language.
+
+    Uses command-line arguments when provided; otherwise, prompts the
+    user interactively.
+
+    Args:
+        args (argparse.Namespace): Parsed command-line arguments.
+
+    Returns:
+        tuple: A tuple containing the selected reading definition and
+        output language.
+    """
     # Interactive mode
     if args.type is None:
         tarot_type = get_type()
@@ -145,7 +206,19 @@ def get_options(args):
 
 
 def get_cards(spread, rng):
-    REVERSED_PROB = 0.20
+    """
+    Draw random tarot cards for a spread.
+
+    Each card is assigned its position in the spread and randomly marked
+    as upright or reversed.
+
+    Args:
+        spread (list[str]): Card positions for the selected spread.
+        rng (random.Random): Random number generator.
+
+    Returns:
+        list[dict]: Information about each drawn card.
+    """
     drawn_cards = rng.sample(tarot_deck, len(spread))
     cards = []
     for position, card in zip(spread, drawn_cards):
@@ -159,7 +232,18 @@ def get_cards(spread, rng):
 
 
 def select_model(arg, rng):
-    MAIN_PROB = 0.65
+    """
+    Select a Gemini model using weighted probabilities.
+
+    The primary model is selected most of the time, while the remaining
+    models are chosen randomly.
+
+    Args:
+        rng (random.Random): Random number generator.
+
+    Returns:
+        str: The selected Gemini model name.
+    """
     if arg:
         model = arg
         return model
@@ -173,6 +257,15 @@ def select_model(arg, rng):
 
 
 def save_to_md(reading, content, args):
+    """
+    Save a tarot reading as a Markdown file.
+
+    Prompts the user before writing the file.
+
+    Args:
+        reading (str): Name of the tarot spread.
+        content (str): Reading to save.
+    """
     now = datetime.datetime.now().strftime("%B-%d-%Y_%H-%M")
     filename = f"{reading}_{now}.md".replace(" ", "_")
     if args.save:
@@ -185,6 +278,16 @@ def save_to_md(reading, content, args):
 
 
 def write_file(filename, content):
+    """
+    Write text content to a Markdown file in the output directory.
+
+    Args:
+        filename (str): Name of the file to create.
+        content (str): Text to write to the file.
+
+    Raises:
+        SystemExit: If the file cannot be written.
+    """
     try:
         with open(f"output/{filename}", "w", encoding="utf-8") as file:
             file.write(content)
@@ -193,6 +296,21 @@ def write_file(filename, content):
 
 
 def sign_response(response, model, args):
+    """
+    Optionally append generation metadata to the reading.
+
+    If the user chooses to sign the response and signing is enabled,
+    the model name and random seed (when provided) are added to the end
+    of the reading.
+
+    Args:
+        response (str): Generated tarot reading.
+        model (str): Gemini model used to generate the reading.
+        args (argparse.Namespace): Parsed command-line arguments.
+
+    Returns:
+        str: The original or signed response.
+    """
     choice = validate_y_or_n("\nSign? Y/N:")
     if args.nosign or choice == "N":
         return response
@@ -204,6 +322,17 @@ def sign_response(response, model, args):
 
 
 def validate_y_or_n(message):
+    """
+    Prompt the user for a yes-or-no response.
+
+    Continues prompting until the user enters either 'Y' or 'N'.
+
+    Args:
+        message (str): Prompt displayed to the user.
+
+    Returns:
+        str: The validated response ('Y' or 'N').
+    """
     while True:
         choice = input(message).upper().strip()
         if choice == "Y" or choice == "N":
@@ -214,4 +343,10 @@ def validate_y_or_n(message):
 
 
 def print_response(response):
+    """
+    Display the generated tarot reading.
+
+    Args:
+        response (str): The reading to print.
+    """
     print(f"\n{response}")

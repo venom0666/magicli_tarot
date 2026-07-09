@@ -11,6 +11,13 @@ API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 def main():
+    """
+    Run the MagicLI Tarot application.
+
+    Parses command-line arguments, initializes the random number
+    generator and Gemini client, generates a tarot reading, and
+    optionally saves the result.
+    """
     args = parse_args()
     rng = random.Random(args.seed)
     reading_type, language = get_options(args)
