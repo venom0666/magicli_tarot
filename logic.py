@@ -3,7 +3,7 @@ import argparse
 import datetime
 import os
 from tarot import readings, tarot_deck
-from constants import models
+from constants import models, logo
 
 REVERSED_PROB = 0.20
 DEFAULT_MODEL_PROBABILITY = 0.65
@@ -17,7 +17,8 @@ def get_readings():
 
 def print_menu(reading_types):
     """Display the menu of available tarot spreads."""
-    print("\nSelect the Tarot Reading Type:\n")
+    print(logo)
+    print("Select the Tarot Reading Type:\n")
     for i, reading in enumerate(reading_types, start=1):
         print(f"{i:2} - {readings[reading]['Name']}")
     print(f"{len(readings) + 1} - Custom")
@@ -327,16 +328,16 @@ def sign_response(response, model, args):
         str: The original or signed response.
     """
     if args.nosign:
-        return response
+        return logo + "\n" + response
 
     signature = f"\n\nModel: {model}"
     if args.seed is not None:
         signature += f"\nSeed: {args.seed}"
 
     if args.sign or prompt_yes_no("\nSign? Y/N:") == "Y":
-        return response + signature
+        return logo + "\n" + response + signature
 
-    return response
+    return logo + "\n" + response
 
 
 def prompt_yes_no(message):
@@ -367,4 +368,5 @@ def print_response(response):
     Args:
         response (str): The reading to print.
     """
+    #print(logo)
     print(f"\n{response}")

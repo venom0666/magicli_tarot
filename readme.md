@@ -48,6 +48,7 @@ pip install -r requirements.txt
 ## Environment Variables
 
 Create an environment variable named `GEMINI_API_KEY`.
+You need to generate a Free [Google AI Studio API Key](https://aistudio.google.com/)
 
 Windows PowerShell
 
