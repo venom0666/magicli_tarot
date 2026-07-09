@@ -77,29 +77,7 @@ python magicli_tarot.py
 
 ```
 
-Example
-
-```
-Select the Tarot Reading Type:
-
- 1 - Situation, Obstacle, Advice
- 2 - Celtic Cross
- 3 - Compass Spread
- 4 - Dream Messages
- 5 - General Spread
- 6 - Your Life Right Now
- 7 - Love Spread
- 8 - Hierarchy of Needs
- 9 - Past, Present, Future
-10 - Two Paths
-11 - Today's Energy
-12 - Custom
- Q - Quit
-
-Choice: 1
-
-Output Language (leave empty for English):
-```
+<img src="images/magicli_tarot_menu.gif" width="900" alt="Menu">
 
 ### Command line
 
@@ -110,41 +88,21 @@ python magicli_tarot.py -t Celtic
 
 <img src="images/magicli_tarot_example_1.gif" width="900" alt="Example 1">
 
-#### Example help:
+#### Help
 
 ```bash
 $ python magicli_tarot.py --help
 ```
 
-```
-usage: magicli-tarot.py [-h] [-t {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}]
-                  [-l LANG]
-                  [--model {gemini-2.5-flash,gemini-2.5-flash-lite,gemini-3.5-flash,gemini-3.1-flash-lite}]
-                  [--seed SEED] [--sign] [--nosign] [--save] [--nosave]
-
-magicli_tarot brings the Power of Python and AI, to create insightful
-tarot readings delivering them to the comfort of your own CLI.
-
-options:
-  -h, --help            show this help message and exit
-  -t, --type {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}
-                        Tarot spread type
-  -l, --lang LANG       Output language (default: English)
-  --model {gemini-2.5-flash,gemini-2.5-flash-lite,gemini-3.5-flash,gemini-3.1-flash-lite}
-                        Model to interpret readings
-  --seed SEED           Random seed
-  --sign                Automatically add signature from response
-  --nosign              Automatically remove signature from response
-  --save                Automatically save to .md file
-  --nosave              Automatically don't save to .md file
-```
+<img src="images/magicli_tarot_help.gif" width="900" alt="Help">
 
 #### (Reproducible) General spread with Spanish output signed and saved
 
 ```bash
 python magicli_tarot.py -t General -l Spanish --seed 66 --sign --save
-
 ```
+
+<img src="images/magicli_tarot_example_2.gif" width="900" alt="Example 2">
 
 #### (Reproducible) Dream spread with English output, signed, not saved.
 
@@ -153,7 +111,7 @@ python magicli_tarot.py -t Dream --seed 58 --sign --nosave
 
 ```
 
-#### Saved File Examples TODO
+<img src="images/magicli_tarot_example_3.gif" width="900" alt="Example 3">
 
 ## Project Structure
 
