@@ -108,6 +108,8 @@ python magicli_tarot.py -t Celtic
 
 ```
 
+<img src="images/magicli_tarot_example_1.gif" width="900" alt="Example 1">
+
 #### Example help:
 
 ```bash
