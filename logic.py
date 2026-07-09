@@ -2,7 +2,7 @@ import sys
 import argparse
 import datetime
 from tarot import readings, tarot_deck
-from api import models
+from constants import models
 
 
 def get_readings():
@@ -35,23 +35,35 @@ def get_type():
             return choice-1
 
 
-def create_custom():
-    definitions = []
-    name = input("New Spread Name: ").strip().title()
+def validate_text(message):
     while True:
-        try:
-            num_cards = int(input("Number of Cards: "))
-        except (TypeError, ValueError):
-            print("Invalid Choice")
-            continue
-        if num_cards < 1:
-            print("Invalid Choice")
+        text = input(message).strip().title()
+        if text == "":
+            print("Invalid Empty Value")
             continue
         else:
-            break
+            return text
+
+def validate_number(message):
+    while True:
+            try:
+                number = int(input(message))
+            except (TypeError, ValueError):
+                print("Invalid Choice")
+                continue
+            if number < 1:
+                print("Invalid Choice")
+                continue
+            else:
+                return number
+
+def create_custom():
+    definitions = []
+    name = validate_text("New Spread Name: ")
+    num_cards = validate_number("Number of Cards: ")
 
     for card_number in range(num_cards):
-        definitions.append(input(f"Meaning for Card {card_number+1}: ").strip().title())
+        definitions.append(validate_text(f"Meaning for Card {card_number+1}: ").strip().title())
     return {"Name": name, "Meaning": definitions}
 
 
