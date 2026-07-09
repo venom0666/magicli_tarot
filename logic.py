@@ -307,7 +307,7 @@ def write_file(filename, content):
     try:
         with open(f"output/{filename}", "w", encoding="utf-8") as file:
             file.write(content)
-    except Exception as e:
+    except OSError as e:
         sys.exit(f"File Write error: {e}")
 
 
@@ -368,5 +368,4 @@ def print_response(response):
     Args:
         response (str): The reading to print.
     """
-    #print(logo)
     print(f"\n{response}")

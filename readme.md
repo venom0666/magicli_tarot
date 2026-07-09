@@ -1,11 +1,5 @@
 # **MAGICLI_TAROT**
 
-```
-░█▄█░█▀█░█▀▀░▀█▀░█▀▀░█░░░▀█▀░░░░░▀█▀░█▀█░█▀▄░█▀█░▀█▀
-░█░█░█▀█░█░█░░█░░█░░░█░░░░█░░░░░░░█░░█▀█░█▀▄░█░█░░█░
-░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀░▀░▀▀▀░░▀░
-```
-
 #### Video Demo: <TODO>
 
 #### Description
@@ -14,7 +8,7 @@
 
 Users can choose from several predefined spreads or create a custom spread, specify the output language, AI model and optionally save the reading as a Markdown file.
 
-With the Power of **Python** and **AI**, we are bringing Tarot Readings to the comfort of your own CLI
+MagicLI Tarot combines traditional tarot spreads with Google's Gemini API to generate detailed AI-assisted interpretations directly from the command line.
 
 ## Features
 
@@ -31,7 +25,7 @@ With the Power of **Python** and **AI**, we are bringing Tarot Readings to the c
 
 ## Requirements
 
-- Python 3.13.12+
+- Python 3.13+
 - google-genai==2.10.0
 - python-dotenv==1.2.2
 
@@ -136,7 +130,7 @@ I separated the application into functions that each perform a single task. get_
 
 I used random cards and orientations to better simulate an actual tarot reading.
 
-When implementing arguments to the project it got very complex, so after researching ways to better handle them I found `argparse` which greatly helped in dealing with multiple arguments.
+As the number of command-line options grew, manually parsing arguments became increasingly difficult. I adopted `argparse` to simplify the interface, improve validation, and provide automatic help messages.
 
 I chose a dictionary to store the tarot spread types for simplicity in giving short names in arguments, and accessing values directly associated.
 
@@ -165,9 +159,8 @@ Tests verify:
 
 ## Future Improvements
 
-- HTML, DOC and PDF export options
-- Add images with an image-generator model to exported file
 - Reading history
-- Self-hosted model support
-- Migrate spread types to CSV
-- Save new spread types
+- Save custom spreads
+- PDF export
+- HTML export
+- Image generation

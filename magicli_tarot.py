@@ -19,7 +19,7 @@ def main():
     generator and Gemini client, generates a tarot reading, and
     optionally saves the result.
     """
-    if API_KEY is None:
+    if not API_KEY:
         sys.exit("GEMINI_API_KEY environment variable not set.")
     args = parse_args()
     rng = random.Random(args.seed)
