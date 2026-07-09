@@ -1,11 +1,13 @@
 import sys
 import argparse
 import datetime
+import os
 from tarot import readings, tarot_deck
 from constants import models
 
 REVERSED_PROB = 0.20
-MAIN_PROB = 0.65
+DEFAULT_MODEL_PROBABILITY = 0.65
+FOLDER_PATH = "./output/"
 
 
 def get_readings():
@@ -46,7 +48,7 @@ def get_type():
             return choice-1
 
 
-def validate_text(message):
+def prompt_text(message):
     """
     Prompt the user for non-empty text input.
 
@@ -68,7 +70,7 @@ def validate_text(message):
         else:
             return text
 
-def validate_number(message):
+def prompt_positive_int(message):
     """
     Prompt the user for a positive integer.
 
@@ -101,11 +103,11 @@ def create_custom():
         dict: A dictionary containing the spread name and card positions.
     """
     definitions = []
-    name = validate_text("New Spread Name: ")
-    num_cards = validate_number("Number of Cards: ")
+    name = prompt_text("New Spread Name: ")
+    num_cards = prompt_positive_int("Number of Cards: ")
 
     for card_number in range(num_cards):
-        definitions.append(validate_text(f"Meaning for Card {card_number+1}: ").strip().title())
+        definitions.append(prompt_text(f"Meaning for Card {card_number+1}: ").strip().title())
     return {"Name": name, "Meaning": definitions}
 
 
@@ -248,7 +250,7 @@ def select_model(arg, rng):
         model = arg
         return model
     else:
-        model = "gemini-3.1-flash-lite" if rng.random() < MAIN_PROB else rng.choice([
+        model = "gemini-3.1-flash-lite" if rng.random() < DEFAULT_MODEL_PROBABILITY else rng.choice([
             "gemini-2.5-flash",
             "gemini-2.5-flash-lite",
             "gemini-3.5-flash",
@@ -267,19 +269,31 @@ def save_to_md(reading, content, args):
         content (str): Reading to save.
     """
     now = datetime.datetime.now().strftime("%B-%d-%Y_%H-%M")
-    filename = f"{reading}_{now}.md".replace(" ", "_")
+    filename = (f"{reading}_{now}.md"
+                .replace(" ", "_")
+                .replace(",","")
+                .replace("'", "")
+                )
     if args.save:
         write_file(filename, content)
     elif not args.nosave:
-        choice = validate_y_or_n("\nSave to .md File? Y/N: ")
+        choice = prompt_yes_no("\nSave to .md File? Y/N: ")
         if choice == "Y":
             write_file(filename, content)
 
+def ensure_output_directory():
+    """
+    Ensure that the output directory exists.
 
+    Creates the output directory if it does not already exist.
+    """
+    if not os.path.isdir(FOLDER_PATH):
+        os.mkdir(FOLDER_PATH)
 
 def write_file(filename, content):
     """
     Write text content to a Markdown file in the output directory.
+    If output directory does not exist it will be created.
 
     Args:
         filename (str): Name of the file to create.
@@ -288,6 +302,7 @@ def write_file(filename, content):
     Raises:
         SystemExit: If the file cannot be written.
     """
+    ensure_output_directory()
     try:
         with open(f"output/{filename}", "w", encoding="utf-8") as file:
             file.write(content)
@@ -311,7 +326,7 @@ def sign_response(response, model, args):
     Returns:
         str: The original or signed response.
     """
-    choice = validate_y_or_n("\nSign? Y/N:")
+    choice = prompt_yes_no("\nSign? Y/N:")
     if args.nosign or choice == "N":
         return response
     else:
@@ -321,7 +336,7 @@ def sign_response(response, model, args):
         return response
 
 
-def validate_y_or_n(message):
+def prompt_yes_no(message):
     """
     Prompt the user for a yes-or-no response.
 

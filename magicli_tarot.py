@@ -1,4 +1,5 @@
 import os
+import sys
 import random
 from google import genai
 from dotenv import load_dotenv
@@ -18,6 +19,8 @@ def main():
     generator and Gemini client, generates a tarot reading, and
     optionally saves the result.
     """
+    if API_KEY is None:
+        sys.exit("GEMINI_API_KEY environment variable not set.")
     args = parse_args()
     rng = random.Random(args.seed)
     reading_type, language = get_options(args)

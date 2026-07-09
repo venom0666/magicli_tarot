@@ -75,7 +75,7 @@ python magicli_tarot.py -t Celtic
 
 #### Example help:
 
-```bash
+```
 $ python magicli_tarot.py --help
 usage: magicli-tarot.py [-h] [-t {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}]
                   [-l LANG]
@@ -119,6 +119,7 @@ python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 - api.py
 - logic.py
 - tarot.py
+- constants.py
 - test_magicli_tarot.py
 - requirements.txt
 - readme.md

@@ -28,6 +28,7 @@ def interpret_tarot(client, cards, reading_type, model, language="English"):
 
                 Instructions:
                 - For each card:
+                - Avoid repeating the same interpretation across cards.
                 - State the card name and orientation.
                 - Explain the card's general meaning.
                 - Interpret the card according to its position ("position") in the spread.
