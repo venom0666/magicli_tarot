@@ -12,26 +12,53 @@ With the Power of **Python** and **AI**, we are bringing Tarot Readings to the c
 
 ## Features
 
-    - 78-card tarot deck
-    - Multiple predefined spreads
-    - Custom spreads
-    - Random upright/reversed cards
-    - AI-generated interpretations using Gemini
-    - Multiple output languages
-    - Save readings as Markdown
-    - Interactive mode
-    - Command-line mode
-    - Reproducible readings with --seed
+- 78-card tarot deck
+- Upright and reversed cards
+- Multiple predefined tarot spreads
+- Custom spreads
+- AI-generated interpretations
+- Multiple output languages
+- Markdown export
+- Interactive and command-line modes
+- Reproducible readings with `--seed`
+- Automated tests with pytest
 
 ## Requirements
 
-    - Python 3.13.12+
-    - google-genai==2.10.0
-    - python-dotenv==1.2.2
+- Python 3.13.12+
+- google-genai==2.10.0
+- python-dotenv==1.2.2
+
+## Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/venom0666/magicli_tarot.git
+cd magicli_tarot
+```
+
+Install dependencies
 
 ```bash
 pip install -r requirements.txt
 
+```
+
+## Environment Variables
+
+Create an environment variable named `GEMINI_API_KEY`.
+
+Windows PowerShell
+
+```powershell
+$env:GEMINI_API_KEY="your_api_key"
+```
+
+Linux/macOS
+
+```bash
+export GEMINI_API_KEY="your_api_key"
 ```
 
 ## Usage
@@ -47,6 +74,7 @@ Example
 
 ```
 Select the Tarot Reading Type:
+
  1 - Situation, Obstacle, Advice
  2 - Celtic Cross
  3 - Compass Spread
@@ -75,14 +103,17 @@ python magicli_tarot.py -t Celtic
 
 #### Example help:
 
-```
+```bash
 $ python magicli_tarot.py --help
+```
+
+```
 usage: magicli-tarot.py [-h] [-t {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}]
                   [-l LANG]
                   [--model {gemini-2.5-flash,gemini-2.5-flash-lite,gemini-3.5-flash,gemini-3.1-flash-lite}]
                   [--seed SEED] [--sign] [--nosign] [--save] [--nosave]
 
-Magicli_tarot brings the Power of Python and AI, to create insightful
+magicli_tarot brings the Power of Python and AI, to create insightful
 tarot readings delivering them to the comfort of your own CLI.
 
 options:
@@ -99,38 +130,40 @@ options:
   --nosave              Automatically don't save to .md file
 ```
 
-#### Type and Language
+#### General spread with Spanish output
 
 ```bash
 python magicli_tarot.py -t General -l Spanish
 
 ```
 
-#### Type, Language, Seed, Sign and Nosave
+#### (Reproducible) Dream spread with English output, signed, not saved.
 
 ```bash
 python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 
 ```
 
-## Project Structure TODO
+#### Saved File Examples TODO
+
+## Project Structure
 
 - magicli_tarot.py
+  - Main entry point
 - api.py
+  - Communicates with Gemini and builds prompts.
 - logic.py
+  - Handles user interaction, argument parsing, random card generation, and saving readings.
 - tarot.py
+  - Contains the tarot deck and predefined spreads.
 - constants.py
+  - Contains a list of valid Gemini text models.
 - test_magicli_tarot.py
+  - Automated tests.
 - requirements.txt
-- readme.md
-
-**Briefly explain each file**
+  - List of required modules
 
 ## Design Decisions TODO
-
-Explain why you wrote it this way.
-
-For example:
 
 I separated the application into functions that each perform a single task. get_cards() is responsible only for drawing cards, while interpret_tarot() handles communication with the Gemini API. This separation makes the code easier to understand and test.
 
@@ -150,29 +183,20 @@ The project includes automated tests using pytest.
 
 Tests verify:
 
-- Number of cards drawn
-- Validate orientation for drawn cards
-- No duplicate cards
-- Spread generation
+- Card drawing
+- Card uniqueness
+- Spread positions
 - Model selection
-- Reading types retrieval
-- Exact cards drawn with seed
-- Exact model selected with seed
+- Random seed reproducibility
 
-## Limitations TODO
+## Limitations
 
-Every project has them.
+- The project requires an internet connection because all interpretations are
+  generated using the Gemini API.
 
-Example:
+## Future Improvements
 
-The interpretation depends on the Gemini API and therefore requires an internet connection.
-
-## Future Improvements TODO
-
-For example
-
-- HTML, DOC and PDF export
-- Card images with an image generator for HTML, DOC and PDF
+- HTML, DOC and PDF export options
+- Add images with an image-generator model to exported file
 - Reading history
-- User profiles
-- Multiple AI providers
+- Self-hosted model support

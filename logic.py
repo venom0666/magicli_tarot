@@ -17,7 +17,7 @@ def get_readings():
 
 def print_menu(reading_types):
     """Display the menu of available tarot spreads."""
-    print("\nSelect the Tarot Reading Type:")
+    print("\nSelect the Tarot Reading Type:\n")
     for i, reading in enumerate(reading_types, start=1):
         print(f"{i:2} - {readings[reading]['Name']}")
     print(f"{len(readings) + 1} - Custom")
@@ -119,7 +119,7 @@ def parse_args():
         argparse.Namespace: Parsed command-line arguments.
     """
     parser = argparse.ArgumentParser(
-        description="Magicli-tarot brings the Power of Python and AI, to create insightful tarot readings delivering them to the comfort of your own CLI."
+        description="magicli_tarot brings the Power of Python and AI, to create insightful tarot readings delivering them to the comfort of your own CLI."
     )
 
     parser.add_argument(
@@ -326,14 +326,17 @@ def sign_response(response, model, args):
     Returns:
         str: The original or signed response.
     """
-    choice = prompt_yes_no("\nSign? Y/N:")
-    if args.nosign or choice == "N":
+    if args.nosign:
         return response
-    else:
-        response = response + f"\n\nModel: {model}"
-        if args.seed:
-            response = response + f"\nSeed: {args.seed}"
-        return response
+
+    signature = f"\n\nModel: {model}"
+    if args.seed is not None:
+        signature += f"\nSeed: {args.seed}"
+
+    if args.sign or prompt_yes_no("\nSign? Y/N:") == "Y":
+        return response + signature
+
+    return response
 
 
 def prompt_yes_no(message):
