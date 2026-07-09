@@ -1,4 +1,4 @@
-# **MAGICLI-TAROT**
+# **MAGICLI_TAROT**
 
 #### Video Demo: <TODO>
 
@@ -6,7 +6,7 @@
 
 With the Power of **Python** and **AI**, we are bringing Tarot Readings to the comfort of your own CLI
 
-_Magicli-tarot_ is a command-line Python application that simulates tarot card readings using traditional tarot spreads and Google's Gemini API. The program randomly draws cards from a standard 78-card tarot deck, assigns upright or reversed orientations, and generates a detailed interpretation based on the selected spread.
+**Magicli_tarot** is a command-line Python application that simulates tarot card readings using traditional tarot spreads and Google's Gemini API. The program randomly draws cards from a standard 78-card tarot deck, assigns upright or reversed orientations, and generates a detailed interpretation based on the selected spread.
 
 Users can choose from several predefined spreads or create a custom spread, specify the output language, AI model and optionally save the reading as a Markdown file.
 
@@ -39,7 +39,7 @@ pip install -r requirements.txt
 ### Interactive mode
 
 ```
-python magicli-tarot.py
+python magicli_tarot.py
 
 ```
 
@@ -69,20 +69,20 @@ Output Language (leave empty for English):
 ### Command line
 
 ```
-python magicli-tarot.py -t Celtic
+python magicli_tarot.py -t Celtic
 
 ```
 
 #### Example help:
 
 ```
-$ python magicli-tarot.py --help
+$ python magicli_tarot.py --help
 usage: magicli-tarot.py [-h] [-t {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}]
                   [-l LANG]
                   [--model {gemini-2.5-flash,gemini-2.5-flash-lite,gemini-3.5-flash,gemini-3.1-flash-lite}]
                   [--seed SEED] [--sign] [--nosign] [--save] [--nosave]
 
-Magicli-tarot brings the Power of Python and AI, to create insightful
+Magicli_tarot brings the Power of Python and AI, to create insightful
 tarot readings delivering them to the comfort of your own CLI.
 
 options:
@@ -95,31 +95,31 @@ options:
   --seed SEED           Random seed
   --sign                Automatically add signature from response
   --nosign              Automatically remove signature from response
-  --save                Automaticaly save to .md file
+  --save                Automatically save to .md file
   --nosave              Automatically don't save to .md file
 ```
 
 #### Type and Language
 
 ```
-python magicli-tarot.py -t General -l Spanish
+python magicli_tarot.py -t General -l Spanish
 
 ```
 
 #### Type, Language, Seed, Sign and Nosave
 
 ```
-python magicli-tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
+python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 
 ```
 
 ## Project Structure TODO
 
-- magicli-tarot.py
+- magicli_tarot.py
 - api.py
 - logic.py
 - tarot.py
-- test_magicli-tarot.py
+- test_magicli_tarot.py
 - requirements.txt
 - readme.md
 
