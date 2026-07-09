@@ -1,5 +1,9 @@
 # **MAGICLI_TAROT**
 
+░█▄█░█▀█░█▀▀░▀█▀░█▀▀░█░░░▀█▀░░░░░▀█▀░█▀█░█▀▄░█▀█░▀█▀
+░█░█░█▀█░█░█░░█░░█░░░█░░░░█░░░░░░░█░░█▀█░█▀▄░█░█░░█░
+░▀░▀░▀░▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀░▀░▀▀▀░░▀░
+
 #### Video Demo: <TODO>
 
 #### Description
@@ -47,8 +51,8 @@ pip install -r requirements.txt
 
 ## Environment Variables
 
-Create an environment variable named `GEMINI_API_KEY`.
-You need to generate a Free [Google AI Studio API Key](https://aistudio.google.com/)
+- You need to generate a Free [Google AI Studio API Key](https://aistudio.google.com/)
+- Create an environment variable named `GEMINI_API_KEY`.
 
 Windows PowerShell
 
@@ -131,17 +135,17 @@ options:
   --nosave              Automatically don't save to .md file
 ```
 
-#### General spread with Spanish output
+#### (Reproducible) General spread with Spanish output signed and saved
 
 ```bash
-python magicli_tarot.py -t General -l Spanish
+python magicli_tarot.py -t General -l Spanish --seed 66 --sign --save
 
 ```
 
 #### (Reproducible) Dream spread with English output, signed, not saved.
 
 ```bash
-python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
+python magicli_tarot.py -t Dream --seed 58 --sign --nosave
 
 ```
 
@@ -164,19 +168,21 @@ python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 - requirements.txt
   - List of required modules
 
-## Design Decisions TODO
+## Design Decisions
 
 I separated the application into functions that each perform a single task. get_cards() is responsible only for drawing cards, while interpret_tarot() handles communication with the Gemini API. This separation makes the code easier to understand and test.
 
-Talk about:
+I used random cards and orientations to better simulate an actual tarot reading.
 
-why dictionaries represent spreads
-why argparse
-why Markdown output
-why --seed
-why random orientations
+When implementing arguments to the project it got very complex, so after researching ways to better handle them I found `argparse` which greatly helped in dealing with multiple arguments.
 
-This section is often what distinguishes a good project from a great one.
+I chose a dictionary to store the tarot spread types for simplicity in giving short names in arguments, and accessing values directly associated.
+
+I used Markdown as an output format because I wanted a simple easy to read and small file size output.
+
+Through arguments, you can get an output without having to interact with the terminal, but if any are missing except `-l` you will get a prompt.
+
+For better testing and reproducibility I implemented a seed system for the randomness.
 
 ## Testing
 
@@ -201,3 +207,5 @@ Tests verify:
 - Add images with an image-generator model to exported file
 - Reading history
 - Self-hosted model support
+- Migrate spread types to CSV
+- Save new spread types
