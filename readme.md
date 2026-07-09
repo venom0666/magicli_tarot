@@ -4,11 +4,11 @@
 
 #### Description
 
-With the Power of **Python** and **AI**, we are bringing Tarot Readings to the comfort of your own CLI
-
-**Magicli_tarot** is a command-line Python application that simulates tarot card readings using traditional tarot spreads and Google's Gemini API. The program randomly draws cards from a standard 78-card tarot deck, assigns upright or reversed orientations, and generates a detailed interpretation based on the selected spread.
+**MagicLI Tarot** is a command-line Python application that simulates tarot card readings using traditional tarot spreads and Google's Gemini API. The program randomly draws cards from a standard 78-card tarot deck, assigns upright or reversed orientations, and generates a detailed interpretation based on the selected spread.
 
 Users can choose from several predefined spreads or create a custom spread, specify the output language, AI model and optionally save the reading as a Markdown file.
+
+With the Power of **Python** and **AI**, we are bringing Tarot Readings to the comfort of your own CLI
 
 ## Features
 
@@ -29,7 +29,7 @@ Users can choose from several predefined spreads or create a custom spread, spec
     - google-genai==2.10.0
     - python-dotenv==1.2.2
 
-```
+```bash
 pip install -r requirements.txt
 
 ```
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 
 ### Interactive mode
 
-```
+```bash
 python magicli_tarot.py
 
 ```
@@ -68,14 +68,14 @@ Output Language (leave empty for English):
 
 ### Command line
 
-```
+```bash
 python magicli_tarot.py -t Celtic
 
 ```
 
 #### Example help:
 
-```
+```bash
 $ python magicli_tarot.py --help
 usage: magicli-tarot.py [-h] [-t {Advice,Celtic,Compass,Dream,General,Life,Love,Needs,Past,Path,Today}]
                   [-l LANG]
@@ -101,14 +101,14 @@ options:
 
 #### Type and Language
 
-```
+```bash
 python magicli_tarot.py -t General -l Spanish
 
 ```
 
 #### Type, Language, Seed, Sign and Nosave
 
-```
+```bash
 python magicli_tarot.py -t Dream -l Spanish --seed 58 --sign --nosave
 
 ```
