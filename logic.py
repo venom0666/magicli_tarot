@@ -325,7 +325,7 @@ def save_to_md(reading, content, args):
         filename = set_default_filename(reading, now) if not args.filename else args.filename
         write_file(filename, content)
     elif not args.nosave:
-        choice = prompt_yes_no("\nSave to .md File? Y/N: ")
+        choice = prompt_yes_no("Save to .md File? Y/N: ")
         if choice == "Y":
             filename = change_filename(reading,args, now)
             write_file(filename, content)
