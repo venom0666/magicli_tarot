@@ -14,6 +14,7 @@ def interpret_tarot(client, cards, reading_type, model, language="English"):
     Returns:
         str: Generated tarot interpretation.
     """
+    print("\nThinking...")
     try:
         interaction = client.interactions.create(
             model=model,

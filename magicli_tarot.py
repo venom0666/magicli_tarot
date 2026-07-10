@@ -25,12 +25,12 @@ def main():
     rng = random.Random(args.seed)
     reading_type, language = get_options(args)
     client = genai.Client(api_key=API_KEY)
-    model = select_model(args.model, rng)
+    model = select_model(args, rng)
     cards = get_cards(reading_type["Meaning"], rng)
     response = interpret_tarot(client, cards, reading_type["Name"], model, language)
     client.close()
-    response = sign_response(response, model, args)
-    print_response(response)
+    response = sign_response(response, model, args) 
+    print_response(response, args)
     save_to_md(reading_type["Name"], response, args)
 
 
