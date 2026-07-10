@@ -1,5 +1,7 @@
 # **MAGICLI_TAROT**
 
+![Logo](images/magicli_tarot_logo.png)
+
 #### Video Demo: <TODO>
 
 #### Description
@@ -71,7 +73,7 @@ python magicli_tarot.py
 
 ```
 
-<img src="images/magicli_tarot_menu.gif" width="900" alt="Menu">
+<img src="images/magicli_tarot_menu.gif" width="800" alt="Menu" alignment="center">
 
 ### Command line
 
@@ -88,12 +90,12 @@ python magicli_tarot.py -t Celtic
 $ python magicli_tarot.py --help
 ```
 
-<img src="images/magicli_tarot_help.gif" width="900" alt="Help">
+<img src="images/magicli_tarot_help.png" width="900" alt="Help">
 
 #### (Reproducible) General spread with Spanish output signed and saved
 
 ```bash
-python magicli_tarot.py -t General -l Spanish --seed 66 --sign --save
+python magicli_tarot.py -t General -l Spanish --seed 66 --sign --save --noprint
 ```
 
 <img src="images/magicli_tarot_example_2.gif" width="900" alt="Example 2">
@@ -101,7 +103,7 @@ python magicli_tarot.py -t General -l Spanish --seed 66 --sign --save
 #### (Reproducible) Dream spread with English output, signed, not saved.
 
 ```bash
-python magicli_tarot.py -t Dream --seed 58 --sign --nosave
+python magicli_tarot.py -t Dream --seed 58 --sign --nosave --print
 
 ```
 

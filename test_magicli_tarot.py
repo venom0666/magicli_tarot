@@ -1,5 +1,5 @@
-from logic import get_readings, get_cards, select_model
-from api import models
+from magicli_tarot import get_readings, get_cards, select_model
+from constants import models
 import random
 
 

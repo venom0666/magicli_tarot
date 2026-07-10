@@ -145,8 +145,8 @@ def parse_args():
     magicli_tarot.py
     magicli_tarot.py -t Celtic
     magicli_tarot.py -t Love -l Spanish
-    magicli_tarot.py --seed 42 --save
-    magicli_tarot.py --model gemini-3.1-flash
+    magicli_tarot.py --seed 42 --save --sign
+    magicli_tarot.py --model gemini-3.1-flash --sign
             """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -219,7 +219,7 @@ def parse_args():
 
     args = parser.parse_args()
 
-    if not ensure_valid_filename(args.filename):
+    if args.filename and not ensure_valid_filename(args.filename):
         sys.exit()
 
     return args
@@ -297,7 +297,7 @@ def select_model(args, rng):
     Returns:
         str: The selected Gemini model name.
     """
-    if args.model:
+    if args and args.model:
         model = args.model
         return model
     else:
@@ -358,12 +358,12 @@ def change_filename(reading, args, now):
     """
     if args.filename:
         filename = args.filename
-        return f"{filename}_{now}"
+        return f"{filename}_{now}.md"
     while True:
         choice = prompt_yes_no("Change Filename? Y/N): ")
         if choice == "Y":
             filename = prompt_filename("New Filename: ")
-            return f"{filename}_{now}"
+            return f"{filename}_{now}.md"
         else:
             return set_default_filename(reading, now)
 
@@ -449,7 +449,7 @@ def write_file(filename, content):
     try:
         with open(f"output/{filename}", "w", encoding="utf-8") as file:
             file.write(content)
-            print(f"File: {FOLDER_PATH}{filename}.md - Has been Created.")
+            print(f"File: {FOLDER_PATH}{filename} - Has been Created.")
     except OSError as e:
         sys.exit(f"File Write error: {e}")
 
