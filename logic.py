@@ -7,7 +7,7 @@ from tarot import readings, tarot_deck
 from constants import models, logo
 
 REVERSED_PROB = 0.20
-DEFAULT_MODEL_PROBABILITY = 0.65
+DEFAULT_MODEL_PROBABILITY = 0.80
 FOLDER_PATH = "./output/"
 
 
