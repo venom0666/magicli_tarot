@@ -136,7 +136,7 @@ As the number of command-line options grew, manually parsing arguments became in
 
 I chose a dictionary to store the tarot spread types for simplicity in giving short names in arguments, and accessing values directly associated.
 
-I used Markdown as an output format because I wanted a simple easy to read and small file size output.
+Likewise, I used Markdown as an output format because I wanted a simple easy to read and small file size output.
 
 Through arguments, you can get an output without having to interact with the terminal, but if any are missing except `-l` you will get a prompt.
 

@@ -1,7 +1,3 @@
-from ast import While
-from encodings.punycode import T
-from fileinput import filename
-from random import choice
 import sys
 import argparse
 import datetime
