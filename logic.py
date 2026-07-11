@@ -142,7 +142,7 @@ def parse_args():
     magicli_tarot.py -t Celtic
     magicli_tarot.py -t Love -l Spanish
     magicli_tarot.py --seed 42 --save --sign
-    magicli_tarot.py --model gemini-3.1-flash --sign
+    magicli_tarot.py --save --print --nosign --reader Madame 
             """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -444,6 +444,7 @@ def write_file(filename, content):
     Raises:
         SystemExit: If the file cannot be written.
     """
+    content = file_logo + "\n" + content
     ensure_output_directory()
     try:
         with open(f"output/{filename}", "w", encoding="utf-8") as file:
@@ -470,16 +471,16 @@ def sign_response(response, reader, args):
         str: The original or signed response.
     """
     if args.nosign:
-        return file_logo + "\n" + response
+        return response
 
     signature = f"\n\nReader: {str(reader)[1:-1]}"
     if args.seed is not None:
         signature += f"\nSeed: {args.seed}"
 
     if args.sign or prompt_yes_no("\nSign? Y/N:") == "Y":
-        return file_logo + "\n" + response + signature
+        return response + signature
 
-    return file_logo + "\n" + response
+    return response
 
 
 def prompt_yes_no(message):
@@ -519,4 +520,4 @@ def print_response(response, args):
         return
 
     if args.print or prompt_yes_no("Print response? Y/N: ") == "Y":
-        print(f"\n{response}")
+        print(f"\n{logo}\n{response}")
