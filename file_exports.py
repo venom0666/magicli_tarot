@@ -2,8 +2,9 @@ import datetime
 import os
 import re 
 import sys
+import logic
 from constants import FOLDER_PATH, file_logo
-from logic import prompt_yes_no
+
 
 
 def save_to_file(reading, content, args, reader):
@@ -23,7 +24,7 @@ def save_to_file(reading, content, args, reader):
         filename = set_default_filename(reading, now, reader) if not args.filename else args.filename
         write_file(filename, content)
     elif not args.nosave:
-        choice = prompt_yes_no("Save to .md File? Y/N: ")
+        choice = logic.prompt_yes_no("Save to .md File? Y/N: ")
         if choice == "Y":
             filename = change_filename(reading,args, now, reader)
             write_file(filename, content)
@@ -59,7 +60,7 @@ def change_filename(reading, args, now, reader):
         filename = args.filename
         return f"{filename}_{now}.md"
     while True:
-        choice = prompt_yes_no("Change Filename? Y/N): ")
+        choice = logic.prompt_yes_no("Change Filename? Y/N): ")
         if choice == "Y":
             filename = prompt_filename("New Filename: ")
             return f"{filename}_{now}.md"
