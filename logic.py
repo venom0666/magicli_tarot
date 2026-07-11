@@ -4,7 +4,7 @@ import datetime
 import os
 import re 
 from tarot import readings, tarot_deck
-from constants import models, logo
+from constants import logo, tarot_readers, file_logo
 
 REVERSED_PROB = 0.20
 DEFAULT_MODEL_PROBABILITY = 0.80
@@ -160,10 +160,16 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--model",
-        choices=sorted(models),
-        help="Specify the Gemini model to use instead of selecting one automatically."
-    )
+            "--reader",
+            choices=sorted(tarot_readers.keys()),
+            help="Specify the Tarot Reader to use instead of selecting one automatically."
+        )
+
+    # parser.add_argument(
+    #     "--model",
+    #     choices=sorted(models),
+    #     help="Specify the Gemini model to use instead of selecting one automatically."
+    # )
 
     parser.add_argument(
         "--seed",
@@ -279,33 +285,33 @@ def get_cards(spread, rng):
     return cards
 
 
-def select_model(args, rng):
+def select_reader(args, rng):
     """
-    Select a Gemini model using weighted probabilities.
+    Select a tarot reader using weighted probabilities.
 
-    The primary model is selected most of the time, while the remaining
-    models are chosen randomly.
+    The primary tarot reader is selected most of the time, while the remaining
+    tarot readers are chosen randomly.
 
     Args:
         args (argparse.Namespace): Parsed command-line arguments.
         rng (random.Random): Random number generator.
 
     Returns:
-        str: The selected Gemini model name.
+        reader(dict): The selected tarot reader dict.
     """
-    if args and args.model:
-        model = args.model
-        return model
+    if args and args.reader:
+        reader = tarot_readers[args.reader]
+        return reader
     else:
-        model = "gemini-3.1-flash-lite" if rng.random() < DEFAULT_MODEL_PROBABILITY else rng.choice([
-            "gemini-2.5-flash",
-            "gemini-2.5-flash-lite",
-            "gemini-3.5-flash",
+        reader = tarot_readers["Feline"] if rng.random() < DEFAULT_MODEL_PROBABILITY else rng.choice([
+            tarot_readers["Professor"],
+            tarot_readers["Crystal"],
+            tarot_readers["Madame"],
         ])
-    return model
+    return reader
 
 
-def save_to_md(reading, content, args):
+def save_to_file(reading, content, args, reader):
     """
     Save a tarot reading as a Markdown file.
 
@@ -315,15 +321,16 @@ def save_to_md(reading, content, args):
         reading (str): Name of the tarot spread.
         content (str): Reading to save.
         args (argparse.Namespace): Parsed command-line arguments.
+        reader(dict): The selected tarot reader dict.
     """    
     now = datetime.datetime.now().strftime("%B-%d-%Y_%H-%M")
     if args.save:
-        filename = set_default_filename(reading, now) if not args.filename else args.filename
+        filename = set_default_filename(reading, now, reader) if not args.filename else args.filename
         write_file(filename, content)
     elif not args.nosave:
         choice = prompt_yes_no("Save to .md File? Y/N: ")
         if choice == "Y":
-            filename = change_filename(reading,args, now)
+            filename = change_filename(reading,args, now, reader)
             write_file(filename, content)
 
 def ensure_output_directory():
@@ -336,7 +343,7 @@ def ensure_output_directory():
         os.mkdir(FOLDER_PATH)
         print(f"Folder: {FOLDER_PATH} - Has been created.")
 
-def change_filename(reading, args, now):
+def change_filename(reading, args, now, reader):
     """
     Determine the filename for the saved reading.
 
@@ -348,6 +355,7 @@ def change_filename(reading, args, now):
         reading (str): Name of the tarot spread.
         args (argparse.Namespace): Parsed command-line arguments.
         now (str): Timestamp appended to the filename.
+        reader(dict): The selected tarot reader dict.
 
     Returns:
         str: The filename to use when saving the reading.
@@ -361,10 +369,10 @@ def change_filename(reading, args, now):
             filename = prompt_filename("New Filename: ")
             return f"{filename}_{now}.md"
         else:
-            return set_default_filename(reading, now)
+            return set_default_filename(reading, now, reader)
 
 
-def set_default_filename(reading, now):
+def set_default_filename(reading, now, reader):
     """
     Generate the default filename for a tarot reading.
 
@@ -374,11 +382,12 @@ def set_default_filename(reading, now):
     Args:
         reading (str): Name of the tarot spread.
         now (str): Timestamp appended to the filename.
+        reader(dict): The selected tarot reader dict.
 
     Returns:
         str: The generated filename.
     """
-    filename = (f"{reading}_{now}.md"
+    filename = (f"{reader["Name"]}_{reading}_{now}.md"
                     .replace(" ", "_")
                     .replace(",","")
                     .replace("'", "")
@@ -450,7 +459,7 @@ def write_file(filename, content):
         sys.exit(f"File Write error: {e}")
 
 
-def sign_response(response, model, args):
+def sign_response(response, reader, args):
     """
     Optionally append generation metadata to the reading.
 
@@ -460,23 +469,23 @@ def sign_response(response, model, args):
 
     Args:
         response (str): Generated tarot reading.
-        model (str): Gemini model used to generate the reading.
+        reader(dict): The selected tarot reader dict.
         args (argparse.Namespace): Parsed command-line arguments.
 
     Returns:
         str: The original or signed response.
     """
     if args.nosign:
-        return logo + "\n" + response
+        return file_logo + "\n" + response
 
-    signature = f"\n\nModel: {model}"
+    signature = f"\n\nReader: {str(reader)[1:-1]}"
     if args.seed is not None:
         signature += f"\nSeed: {args.seed}"
 
     if args.sign or prompt_yes_no("\nSign? Y/N:") == "Y":
-        return logo + "\n" + response + signature
+        return file_logo + "\n" + response + signature
 
-    return logo + "\n" + response
+    return file_logo + "\n" + response
 
 
 def prompt_yes_no(message):

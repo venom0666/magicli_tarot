@@ -1,6 +1,6 @@
 import sys
 
-def interpret_tarot(client, cards, reading_type, model, language="English"):
+def interpret_tarot(client, cards, reading_type, reader, language="English"):
     """
     Generate a tarot interpretation using the Gemini API.
 
@@ -9,15 +9,15 @@ def interpret_tarot(client, cards, reading_type, model, language="English"):
         reading_type (dict): Selected tarot spread.
         cards (list[dict]): Drawn tarot cards.
         language (str): Desired output language.
-        model (str): Gemini model to use.
+        reader (dict): Selected tarot reader.
 
     Returns:
         str: Generated tarot interpretation.
     """
-    print("\nThinking...")
+    print(f"\nPlease wait while {reader["Name"]}, interprets your cards...")
     try:
         interaction = client.interactions.create(
-            model=model,
+            model=reader["Model"],
             input=f"""
                 Interpret the following tarot reading.
 
@@ -27,7 +27,11 @@ def interpret_tarot(client, cards, reading_type, model, language="English"):
                 Cards:
                 {cards}
 
+                Your role:
+                - As a Tarot reader named {reader["Name"]} that is {reader["Bio"]}
+
                 Instructions:
+                - Greeting with your name
                 - For each card:
                 - Avoid repeating the same interpretation across cards.
                 - State the card name and orientation.
