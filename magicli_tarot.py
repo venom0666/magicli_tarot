@@ -4,8 +4,9 @@ import random
 from google import genai
 from dotenv import load_dotenv
 from logic import parse_args, get_options, print_response, get_readings
-from logic import save_to_file, select_reader, get_cards, sign_response
+from logic import select_reader, get_cards, sign_response
 from api import interpret_tarot
+from exports import save_to_file
 
 load_dotenv()
 API_KEY = os.getenv("GEMINI_API_KEY")
