@@ -117,6 +117,8 @@ python magicli_tarot.py -t Dream --seed 58 --sign --nosave --print
   - Communicates with Gemini and builds prompts.
 - logic.py
   - Handles user interaction, argument parsing, random card generation, and saving readings.
+- file_exports.py
+  - Handles file operations, naming, writing, signing.
 - tarot.py
   - Contains the tarot deck and predefined spreads.
 - constants.py
