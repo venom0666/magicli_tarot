@@ -165,12 +165,6 @@ def parse_args():
             help="Specify the Tarot Reader to use instead of selecting one automatically."
         )
 
-    # parser.add_argument(
-    #     "--model",
-    #     choices=sorted(models),
-    #     help="Specify the Gemini model to use instead of selecting one automatically."
-    # )
-
     parser.add_argument(
         "--seed",
         type=int,
