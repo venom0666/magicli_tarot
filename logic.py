@@ -2,7 +2,7 @@ import sys
 import argparse
 from tarot import readings, tarot_deck
 from constants import logo, tarot_readers, DEFAULT_MODEL_PROBABILITY, REVERSED_PROB
-from exports import ensure_valid_filename
+from file_exports import ensure_valid_filename
 
 
 def get_readings():
