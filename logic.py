@@ -185,13 +185,13 @@ def parse_args():
     )
 
     parser.add_argument(
-        "--sign",
+        "--meta",
         action="store_true",
         help="Append the reading metadata information."
     )
 
     parser.add_argument(
-        "--nosign",
+        "--nometa",
         action="store_true",
         help="Do not append reading metadata information."
     )
@@ -324,15 +324,16 @@ def sign_response(response, reader, args):
     Returns:
         str: The original or signed response.
     """
-    if args.nosign:
+    message = "\nWould you like to append this reading metadata? Y/N: "
+    if args.nometa:
         return response
 
-    signature = f"\n\nReader: {str(reader)[1:-1]}"
+    metadata = f"\n\n###### Reader: {str(reader)[1:-1]}"
     if args.seed is not None:
-        signature += f"\nSeed: {args.seed}"
+        metadata += f"\n###### Seed: {args.seed}"
 
-    if args.sign or prompt_yes_no("\nSign? Y/N:") == "Y":
-        return response + signature
+    if args.meta or prompt_yes_no(f"\nS{message}") == "Y":
+        return response + metadata
 
     return response
 
@@ -370,8 +371,9 @@ def print_response(response, args):
         response (str): The generated tarot reading.
         args (argparse.Namespace): Parsed command-line arguments.
     """
+    message = "Would you like to Print the reading in the terminal? Y/N: "
     if args.noprint:
         return
 
-    if args.print or prompt_yes_no("Print response? Y/N: ") == "Y":
+    if args.print or prompt_yes_no(message) == "Y":
         print(f"\n{logo}\n{response}")

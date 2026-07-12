@@ -39,4 +39,4 @@ REVERSED_PROB = 0.20
 DEFAULT_MODEL_PROBABILITY = 0.80
 FOLDER_PATH = "./output/"
 
-filetypes = ["Md","Html","Pdf"]
+filetypes = ["Md","Html","Pdf","Txt"]

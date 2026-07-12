@@ -1,3 +1,5 @@
 google-genai==2.10.0
 python-dotenv==1.2.2
+markdown-pdf==1.13.2
+markdown==3.10.2
 

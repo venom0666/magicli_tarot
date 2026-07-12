@@ -4,7 +4,7 @@ import re
 import sys
 import logic
 from markdown_pdf import MarkdownPdf, Section
-from constants import FOLDER_PATH, file_logo, html_file_logo, filetypes
+from constants import FOLDER_PATH, file_logo, html_file_logo, filetypes, logo
 import markdown
 
 
@@ -20,13 +20,14 @@ def save_to_file(reading, content, args, reader):
         content (str): Reading to save.
         args (argparse.Namespace): Parsed command-line arguments.
         reader(dict): The selected tarot reader dict.
-    """    
+    """
+    message = "Would you like to save the reading to a File? Y/N: "    
     now = datetime.datetime.now().strftime("%B-%d-%Y_%H-%M")
     if args.save:
         filename = set_default_filename(reading, now, reader) if not args.filename else args.filename
         write_file(filename, content, args)
     elif not args.nosave:
-        choice = logic.prompt_yes_no("Save to .md File? Y/N: ")
+        choice = logic.prompt_yes_no(message)
         if choice == "Y":
             filename = change_filename(reading,args, now, reader)
             write_file(filename, content, args)
@@ -58,12 +59,14 @@ def change_filename(reading, args, now, reader):
     Returns:
         str: The filename to use when saving the reading.
     """
+    message = f"""Default filename : {set_default_filename(reading, now, reader)}
+    Would you like to keep this filename? Y/N: """
     if args.filename:
         filename = args.filename
         return f"{filename}_{now}.md"
     while True:
-        choice = logic.prompt_yes_no("Change Filename? Y/N): ")
-        if choice == "Y":
+        choice = logic.prompt_yes_no(message)
+        if choice == "N":
             filename = prompt_filename("New Filename: ")
             return f"{filename}_{now}.md"
         else:
@@ -138,13 +141,16 @@ def prompt_filename(message):
 
 def write_file(filename, content, args):
     ensure_output_directory(FOLDER_PATH)
-    for _ in range(len(filetypes)):
-        print(f"{_ +1} - {sorted(filetypes)[_]}")
+    #add conditional if args.save skip print menu
+    if not args.save:
+        print("\nSelect File Format: ")
+        for _ in range(len(filetypes)):
+            print(f"{_ +1} - {sorted(filetypes)[_]}")
     while True:
         if not (args.ext and args.save):
             try:
-                choice = int(input("\nSelect File Format: "))
-                choice = sorted(filetypes)[choice - 1] if choice > 0 else 8
+                choice = int(input("Choice: "))
+                choice = sorted(filetypes)[choice - 1] if choice > 0 else None
             except TypeError,ValueError,IndexError:
                 print("Invalid choice.")
                 continue
@@ -159,6 +165,9 @@ def write_file(filename, content, args):
                 break
             case "Pdf":
                 write_to_pdf(filename, content) 
+                break
+            case "Txt":
+                write_to_txt(filename, content) 
                 break
             case _:
                 print("Invalid choice")
@@ -183,13 +192,24 @@ def write_to_md(filename, content):
     content = file_logo + "\n" + content
 
     try:
-        with open(f"{FOLDER_PATH}Markdown/{filename}.md", "w", encoding="utf-8") as file:
+        with open(f"{FOLDER_PATH}MD/{filename}.md", "w", encoding="utf-8") as file:
             file.write(content)
-            print(f"File: {FOLDER_PATH}Markdown/{filename}.md - Has been Created.")
+            print(f"File: {FOLDER_PATH}MD/{filename}.md - Has been Created.")
     except OSError as e:
         sys.exit(f"File Write error: {e}")
 
 def write_to_pdf(filename, content):
+    """
+        Write text content to a Pdf file in the output directory.
+        If output directory does not exist it will be created.
+    
+        Args:
+            filename (str): Name of the file to create.
+            content (str): Text to write to the file.
+    
+        Raises:
+            SystemExit: If the file cannot be written.
+        """
 
     ensure_output_directory(f"{FOLDER_PATH}PDF/")
 
@@ -209,6 +229,17 @@ def write_to_pdf(filename, content):
         sys.exit(f"File Write error: {e}")
 
 def write_to_html(filename, content):
+    """
+        Write text content to a Html file in the output directory.
+        If output directory does not exist it will be created.
+    
+        Args:
+            filename (str): Name of the file to create.
+            content (str): Text to write to the file.
+    
+        Raises:
+            SystemExit: If the file cannot be written.
+        """
 
     content = html_file_logo + "\n" + content
 
@@ -223,3 +254,25 @@ def write_to_html(filename, content):
     except OSError as e:
         sys.exit(f"File Write error: {e}")
 
+
+def write_to_txt(filename, content):
+    """
+    Write text content to a Txt file in the output directory.
+    If output directory does not exist it will be created.
+
+    Args:
+        filename (str): Name of the file to create.
+        content (str): Text to write to the file.
+
+    Raises:
+        SystemExit: If the file cannot be written.
+    """
+    ensure_output_directory(f"{FOLDER_PATH}TXT/")
+    content = logo + "\n" + content
+
+    try:
+        with open(f"{FOLDER_PATH}TXT/{filename}.txt", "w", encoding="utf-8") as file:
+            file.write(content)
+            print(f"File: {FOLDER_PATH}TXT/{filename}.txt - Has been Created.")
+    except OSError as e:
+        sys.exit(f"File Write error: {e}")

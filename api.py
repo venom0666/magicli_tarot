@@ -31,6 +31,7 @@ def interpret_tarot(client, cards, reading_type, reader, language="English"):
                 - As a Tarot reader named {reader["Name"]} that is {reader["Bio"]}
 
                 Instructions:
+                - Make sure to Reply entirely in {language}
                 - Greeting with your name
                 - For each card:
                 - Avoid repeating the same interpretation across cards.

@@ -31,9 +31,9 @@ def main():
     response = interpret_tarot(client, cards, reading_type["Name"], reader, language)
     client.close()
     response = sign_response(response, reader, args) 
-    save_to_file(reading_type["Name"], response, args, reader)
     print_response(response, args)
-
+    save_to_file(reading_type["Name"], response, args, reader)
+    
 
 if __name__ == "__main__":
     main()

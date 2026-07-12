@@ -18,7 +18,7 @@ MagicLI Tarot combines traditional tarot spreads with Google's Gemini API to gen
 - Custom spreads
 - AI-generated interpretations
 - Multiple output languages
-- Markdown export
+- Multiple output File extensions (Pdf, Md, Pdf, Txt)
 - Interactive and command-line modes
 - Reproducible readings with `--seed`
 - Automated tests with pytest
@@ -28,6 +28,8 @@ MagicLI Tarot combines traditional tarot spreads with Google's Gemini API to gen
 - Python 3.13+
 - google-genai==2.10.0
 - python-dotenv==1.2.2
+- markdown-pdf==1.13.2
+- markdown==3.10.2
 
 ## Installation
 
@@ -36,6 +38,26 @@ Clone the repository
 ```bash
 git clone https://github.com/venom0666/magicli_tarot.git
 cd magicli_tarot
+```
+
+Create a new `Venv` (Virtual Python Environment)
+
+```bash
+python -m venv .venv
+```
+
+Activate the New `Venv`
+
+powershell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+cmd
+
+```
+.venv\Scripts\activate.bat
 ```
 
 Install dependencies
@@ -60,6 +82,12 @@ Linux/macOS
 
 ```bash
 export GEMINI_API_KEY="your_api_key"
+```
+
+- Or you can create a file named .env in the same folder, containing:
+
+```
+GEMINI_API_KEY=your_api_key
 ```
 
 ## Usage
@@ -163,6 +191,4 @@ Tests verify:
 
 - Reading history
 - Save custom spreads
-- PDF export
-- HTML export
 - Image generation
