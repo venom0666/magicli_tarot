@@ -2,8 +2,6 @@
 
 ![Logo](images/magicli_tarot_logo.png)
 
-#### Video Demo: <TODO>
-
 #### Description
 
 **MagicLI Tarot** is a command-line Python application that simulates tarot card readings using traditional tarot spreads and Google's Gemini API. The program randomly draws cards from a standard 78-card tarot deck, assigns upright or reversed orientations, and generates a detailed interpretation based on the selected spread.
