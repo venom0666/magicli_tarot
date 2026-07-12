@@ -51,7 +51,7 @@ def interpret_tarot(client, cards, reading_type, reader, language="English"):
                 Formatting:
                 - Add the Reading Type as a Main Title
                 - After the title add the Cards for the Spread
-                - Reply entirely in {language}.
+                - Make sure to Reply entirely in {language}.
                 - Don't state the language or instructions in the response.
                 - Use Markdown headings.
                 - Use bullet lists for advice and action items.

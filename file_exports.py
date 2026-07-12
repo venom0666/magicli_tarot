@@ -3,7 +3,9 @@ import os
 import re 
 import sys
 import logic
-from constants import FOLDER_PATH, file_logo
+from markdown_pdf import MarkdownPdf, Section
+from constants import FOLDER_PATH, file_logo, html_file_logo, filetypes
+import markdown
 
 
 
@@ -22,22 +24,22 @@ def save_to_file(reading, content, args, reader):
     now = datetime.datetime.now().strftime("%B-%d-%Y_%H-%M")
     if args.save:
         filename = set_default_filename(reading, now, reader) if not args.filename else args.filename
-        write_file(filename, content)
+        write_file(filename, content, args)
     elif not args.nosave:
         choice = logic.prompt_yes_no("Save to .md File? Y/N: ")
         if choice == "Y":
             filename = change_filename(reading,args, now, reader)
-            write_file(filename, content)
+            write_file(filename, content, args)
 
-def ensure_output_directory():
+def ensure_output_directory(folder):
     """
     Ensure that the output directory exists.
 
     Creates the output directory if it does not already exist.
     """
-    if not os.path.isdir(FOLDER_PATH):
-        os.mkdir(FOLDER_PATH)
-        print(f"Folder: {FOLDER_PATH} - Has been created.")
+    if not os.path.isdir(folder):
+        os.mkdir(folder)
+        print(f"Folder: {folder} - Has been created.")
 
 def change_filename(reading, args, now, reader):
     """
@@ -83,7 +85,7 @@ def set_default_filename(reading, now, reader):
     Returns:
         str: The generated filename.
     """
-    filename = (f"{reader["Name"]}_{reading}_{now}.md"
+    filename = (f"{reader["Name"]}_{reading}_{now}"
                     .replace(" ", "_")
                     .replace(",","")
                     .replace("'", "")
@@ -134,7 +136,38 @@ def prompt_filename(message):
         else:
             continue
 
-def write_file(filename, content):
+def write_file(filename, content, args):
+    ensure_output_directory(FOLDER_PATH)
+    for _ in range(len(filetypes)):
+        print(f"{_ +1} - {sorted(filetypes)[_]}")
+    while True:
+        if not (args.ext and args.save):
+            try:
+                choice = int(input("\nSelect File Format: "))
+                choice = sorted(filetypes)[choice - 1] if choice > 0 else 8
+            except TypeError,ValueError,IndexError:
+                print("Invalid choice.")
+                continue
+        else:
+            choice = args.ext
+        match choice:
+            case "Html":
+                write_to_html(filename, content)
+                break
+            case "Md":
+                write_to_md(filename, content)
+                break
+            case "Pdf":
+                write_to_pdf(filename, content) 
+                break
+            case _:
+                print("Invalid choice")
+                continue
+
+
+
+
+def write_to_md(filename, content):
     """
     Write text content to a Markdown file in the output directory.
     If output directory does not exist it will be created.
@@ -146,11 +179,47 @@ def write_file(filename, content):
     Raises:
         SystemExit: If the file cannot be written.
     """
+    ensure_output_directory(f"{FOLDER_PATH}Markdown/")
     content = file_logo + "\n" + content
-    ensure_output_directory()
+
     try:
-        with open(f"output/{filename}", "w", encoding="utf-8") as file:
+        with open(f"{FOLDER_PATH}Markdown/{filename}.md", "w", encoding="utf-8") as file:
             file.write(content)
-            print(f"File: {FOLDER_PATH}{filename} - Has been Created.")
+            print(f"File: {FOLDER_PATH}Markdown/{filename}.md - Has been Created.")
     except OSError as e:
         sys.exit(f"File Write error: {e}")
+
+def write_to_pdf(filename, content):
+
+    ensure_output_directory(f"{FOLDER_PATH}PDF/")
+
+    content = html_file_logo + "\n" + content
+
+    pdf = MarkdownPdf(toc_level=2, optimize=True)
+    user_css="""body  {font-family: 'FiraMono Nerd Font', monospace;}
+    div {line-height: 1;}"""
+    pdf.add_section(Section(content), user_css=user_css)
+    
+
+
+    try:
+        pdf.save(f"{FOLDER_PATH}PDF/{filename}.pdf")
+        print(f"File: {FOLDER_PATH}PDF/{filename}.pdf - Has been Created.")
+    except OSError as e:
+        sys.exit(f"File Write error: {e}")
+
+def write_to_html(filename, content):
+
+    content = html_file_logo + "\n" + content
+
+    content = markdown.markdown(content)
+    ensure_output_directory(f"{FOLDER_PATH}HTML/")
+
+
+    try:
+        with open(f"{FOLDER_PATH}HTML/{filename}.html", "w", encoding="utf-8", errors="xmlcharrefreplace") as file:
+            file.write(content)
+            print(f"File: {FOLDER_PATH}HTML/{filename}.html - Has been Created.")
+    except OSError as e:
+        sys.exit(f"File Write error: {e}")
+

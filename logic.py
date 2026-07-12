@@ -1,7 +1,7 @@
 import sys
 import argparse
 from tarot import readings, tarot_deck
-from constants import logo, tarot_readers, DEFAULT_MODEL_PROBABILITY, REVERSED_PROB
+from constants import logo, tarot_readers, DEFAULT_MODEL_PROBABILITY, REVERSED_PROB, filetypes
 from file_exports import ensure_valid_filename
 
 
@@ -160,6 +160,13 @@ def parse_args():
         )
 
     parser.add_argument(
+                "--ext",
+                choices=sorted(filetypes),
+                default="Pdf",
+                help="Specify the File type, default is pdf if --save is used."
+            )
+
+    parser.add_argument(
         "--seed",
         type=int,
         help="Initialize the random number generator for reproducible readings."
@@ -168,37 +175,37 @@ def parse_args():
     parser.add_argument(
         "--print",
         action="store_true",
-        help="Print the generated reading without prompting."
+        help="Print the generated reading."
     )
     
     parser.add_argument(
         "--noprint",
         action="store_true",
-        help="Do not print the generated reading without prompting."
+        help="Do not print the generated reading."
     )
 
     parser.add_argument(
         "--sign",
         action="store_true",
-        help="Append the model and seed information without prompting."
+        help="Append the reading metadata information."
     )
 
     parser.add_argument(
         "--nosign",
         action="store_true",
-        help="Do not append model or seed information without prompting.."
+        help="Do not append reading metadata information."
     )
 
     parser.add_argument(
         "--save",
         action="store_true",
-        help="Save the reading as a Markdown file without prompting."
+        help="Save the reading to a file."
     )
 
     parser.add_argument(
         "--nosave",
         action="store_true",
-        help="Do not save the reading to a file without prompting."
+        help="Do not save the reading to a file."
     )
 
     parser.add_argument(
